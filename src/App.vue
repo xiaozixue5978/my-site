@@ -1,28 +1,29 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <Avatar url="https://t15.baidu.com/it/u=1372841570,3864405121&fm=58&s=DE913BC3663335941B0484C80300E0D1" :size="200" />
+    <Icon type="success" />
+    <Pager />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Avatar from '@/components/Avatar';
+import Icon from '@/components/Icon';
+import Pager from '@/components/Pager';
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    Avatar,
+    Icon,
+    Pager
   }
 }
 </script>
 
-<style lang="less">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+<style scoped>
+.iconfont {
+  font-size: 28px;
+  color: #f40;
 }
 </style>
