@@ -24,6 +24,8 @@ const classMap = {
   chat: "iconliuyan",
 };
 
+export const types = Object.keys(classMap);
+
 export default {
   name: 'Icon',
   props: {
