@@ -1,15 +1,10 @@
 <template>
-  <div class="pager-container">
-    <a href="" class="disabled">|&lt;&lt;</a>
-    <a href="">&lt;&lt;</a>
-    <a href="">1</a>
-    <a href="">2</a>
-    <a href="">3</a>
-    <a href="" class="active">4</a>
-    <a href="">5</a>
-    <a href="">6</a>
-    <a href="">&gt;&gt;</a>
-    <a href="">&gt;&gt;|</a>
+  <div class="pager-container" v-if="pageNumber > 1">
+    <a @click="handlePageChange(1)" :class="{ disabled: current === 1 }">|&lt;&lt;</a>
+    <a @click="handlePageChange(current - 1)" :class="{ disabled: current === 1 }">&lt;&lt;</a>
+    <a @click="handlePageChange(num)" v-for="(num,i) in numbers" :key="i" :class="{ active: num === current }">{{ num }}</a>
+    <a @click="handlePageChange(current + 1)" :class="{ disabled: current === pageNumber }">&gt;&gt;</a>
+    <a @click="handlePageChange(pageNumber)" :class="{ disabled: current === pageNumber }">&gt;&gt;|</a>
   </div>
 </template>
 
@@ -32,6 +27,50 @@ export default {
     visibleNumber: { // 可见页码数
       type: Number,
       default: 10
+    }
+  },
+  computed: {
+    // 总页数
+    pageNumber() {
+      return Math.ceil(this.total / this.limit);
+    },
+    // 计算出最小可视数字
+    visibleMin() {
+      let min = this.current - Math.floor(this.visibleNumber / 2);
+      if (min < 1) {
+        min = 1;
+      }
+      return min;
+    },
+    // 计算出最大可视数字
+    visibleMax() {
+      let max = this.visibleMin + this.visibleNumber - 1;
+      if (max > this.pageNumber) {
+        max = this.pageNumber;
+      }
+      return max;
+    },
+    // 计算出最终在页面展示的数字
+    numbers() {
+      console.log(this.pageNumber);
+      const nums = [];
+      for (let i = this.visibleMin; i <= this.visibleMax; i++) {
+        nums.push(i);
+      }
+      return nums;
+    }
+  },
+  methods: {
+    handlePageChange(newPage) {
+      // 判断是否为第一页或最后一页
+      if (newPage < 1 || newPage > this.pageNumber) {
+        return;
+      }
+      // 判断newPage是否是当前页
+      if (newPage === this.current) {
+        return;
+      }
+      this.$emit('pageChange', newPage);
     }
   }
 }
